@@ -9,6 +9,7 @@ const Quiz = () => {
     let [lock, setLock] = useState(false);
     let [score, setScore] = useState(0);
     let [result, setResult] = useState(false);
+    let [submit, setSubmit] = useState(false);
 
     let Option1 = useRef(null);
     let Option2 = useRef(null);
@@ -46,6 +47,9 @@ const Quiz = () => {
                 setResult(true);
                 return 0;
             }
+            else if(index === data.length - 2){
+                setSubmit(true);
+            }
             setIndex(++index);
             setQuestion(data[index]);
             setLock(false);
@@ -66,8 +70,8 @@ const Quiz = () => {
                     You scored {score} out of {data.length}
                 </h2>
                 <button onClick={reset}>Reset</button>
-            </> : <>
-
+            </> : 
+            <>
                 <h2>{index + 1}. {question.question}</h2>
                 <ul>
                     <li ref={Option1} onClick={(e) => { checkAns(e, 1) }}>{question.option1}</li>
@@ -75,7 +79,10 @@ const Quiz = () => {
                     <li ref={Option3} onClick={(e) => { checkAns(e, 3) }}>{question.option3}</li>
                     <li ref={Option4} onClick={(e) => { checkAns(e, 4) }}>{question.option4}</li>
                 </ul>
-                <button onClick={next}>Next</button>
+                    {
+                        submit ? <><button onClick={next}>Submit</button></>
+                        : <><button onClick={next}>Next</button></>
+                    }
                 <div className="index">{index + 1} of {data.length} questions </div>
             </>}
         </div>
